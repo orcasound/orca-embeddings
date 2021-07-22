@@ -38,10 +38,15 @@ def extract_mean_embedding(audio_file,model):
         if int(sample_rate) != 16000:
             sample_rate = tf.cast(sample_rate, dtype=tf.int64)
             waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=16000)
+            
         scores, embeddings, log_mel_spectrogram = yamnet_model(waveform)
         return embeddings, log_mel_spectrogram
 
     elif model == 'humpback':
+        if int(sample_rate) != 10000:
+            sample_rate = tf.cast(sample_rate, dtype=tf.int64)
+            waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=10000)
+        
         waveform = tf.expand_dims(waveform, 0)  # makes a batch of size 1
         pcen_spectrogram = humpback_model.front_end(waveform)
         # zero pad if lenght not a multiple of 128
