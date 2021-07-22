@@ -44,13 +44,13 @@ def extract_mean_embedding(audio_file,model):
         # zero pad if lenght not a multiple of 128
         w_size = 128 # 3.84 seconds context window
         if pcen_spectrogram.shape[1] % w_size != 0:
-          n = w_size - pcen_spectrogram.shape[1] % w_size
-          pcen_spectrogram = tf.concat([pcen_spectrogram,tf.zeros([1,n,64])], axis=1)
+          even_context_window = w_size - pcen_spectrogram.shape[1] % w_size
+          pcen_spectrogram = tf.concat([pcen_spectrogram,tf.zeros([1,even_context_window,64])], axis=1)
         
         n_frames = int(pcen_spectrogram.shape[1]/w_size)
         
-        pcen_spectrogram_r = tf.reshape(pcen_spectrogram,shape=(n_frames,w_size,64)) 
-        embeddings = humpback_model.features(pcen_spectrogram_r)
+        batch_pcen_spectrogram = tf.reshape(pcen_spectrogram,shape=(n_frames,w_size,64)) 
+        embeddings = humpback_model.features(batch_pcen_spectrogram)
 
         return embeddings, pcen_spectrogram
      
