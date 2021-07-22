@@ -24,17 +24,20 @@ def extract_mean_embedding(audio_file,model):
     if model == 'vggish':
         waveform = tf.squeeze(waveform, axis=-1)
         #resample to 16khz
-        sample_rate = tf.cast(sample_rate, dtype=tf.int64)
-        waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=16000)
+        if int(sample_rate) != 16000:
+            sample_rate = tf.cast(sample_rate, dtype=tf.int64)
+            waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=16000)
+            
         embeddings = vggish_model(waveform)
-        spectrogram,_,_,_ = plt.specgram(waveform.numpy(),Fs=int(sample_rate))
+        spectrogram,_,_,_ = plt.specgram(waveform.numpy(),Fs=16000)
         return embeddings, spectrogram.T
 
     elif model == 'yamnet':
         waveform = tf.squeeze(waveform, axis=-1)
         #resample to 16khz
-        sample_rate = tf.cast(sample_rate, dtype=tf.int64)
-        waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=16000)
+        if int(sample_rate) != 16000:
+            sample_rate = tf.cast(sample_rate, dtype=tf.int64)
+            waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=16000)
         scores, embeddings, log_mel_spectrogram = yamnet_model(waveform)
         return embeddings, log_mel_spectrogram
 
