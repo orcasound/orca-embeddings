@@ -70,6 +70,21 @@ Using this workflow a projector visualization for each of the embedding models w
 * [Yamnet embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/yamnet_embeddings/yamnet_config.json)
 * [Humpback embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/humpback_embeddings/humpback_config.json)
 
+# Performance
+
+Using perfplot some test were carried to test the embedding extraction in a colab environment with and without GPU. Test are from audios that range from 1 second to 15 minutes in durations. For the Cpu case a 15 minute audio takes abouit 40 second to process with the humpback model so theres a 22.5X processing wrt the audio duration and the best case is for the Yamnet model with 18 seconds for 50x.
+
+![CPU](CPU_test.PNG)
+
+Using the GPU speeds up the processing of the embeddings, where only the extraction phase is done on less than a second for the vggish and yamnet model and with the whole preprocess is done in 4 seconds. 
+
+![GPU](GPU_test.PNG)
+
+You can try the colab notebook
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1N0GyccpGkEiuaZj-Kli_a7yxEobav4_B?usp=sharing)
+
+
 
 
 
