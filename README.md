@@ -25,9 +25,9 @@ This example in colab generates the files for the projector on a single audio fi
 
 Using this workflow a projector visualization for each of the embedding models was generated using the train dataset of the [Orcaml repo](https://github.com/orcasound/orcaml#Examples), you can see in the notebook folder how the files were generated although they're very similar to the colab example and just differ in the metadata generation. 
 
-*[Vggish embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/projector_config.json)
-*[Yamnet embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/yamnet_embeddings/yamnet_config.json)
-*[Humpback embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/humpback_embeddings/humpback_config.json)
+* [Vggish embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/projector_config.json)
+* [Yamnet embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/yamnet_embeddings/yamnet_config.json)
+* [Humpback embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/humpback_embeddings/humpback_config.json)
 
 
 
