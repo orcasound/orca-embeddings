@@ -47,20 +47,20 @@ An example of the Json config file is the following one, in addition to the Urls
 ```
 Then you pass the route of your json file to the url of the projector and the projector should load your files. 
 
-'''
+```
 https://projector.tensorflow.org/?config=path_to_your_json_config_file
-'''
+```
 
 If the projector don't load your data you must assure to enable The CORS policy on your cloud resource, [more on this issue](https://github.com/tensorflow/tensorflow/issues/16770)
 
 If you are using S3, Just add Cors rule via json file under permissions tab
 
-'''json
+```json
 [ { "AllowedHeaders": [], "AllowedMethods": [ "GET" ], "AllowedOrigins": [ "*" ], "ExposeHeaders": [] } ]
-'''
+```
 
 This example in colab generates the files for the projector on a single audio file and loads the tensorboard extensions within the notebook to visualize the embeddings directly on the colab notebook. Sometimes you have to delete the logs folder and re-run the cell of the projector if the extension can't find the tensor data.
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1tAoBD-WbXa1PFPd0J598xxWlvZJxgCl4?usp=sharing)]
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1tAoBD-WbXa1PFPd0J598xxWlvZJxgCl4?usp=sharing)
 
 # Online Experiments
 
