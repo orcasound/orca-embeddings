@@ -13,21 +13,21 @@ The extraction function receives an audio file and a string with the model name(
 
 A really great tool to visualize embeddings, is the [embedding projector](https://projector.tensorflow.org/). You can run this tool either locally with tensorboard or directly uploading your files to a public accesible cloud resource. The embedding projector needs 3 files to do the complete visualization:
 
-* .tsv file where each row is a point represented in a n dimensional space defined from the number of columns.
-* .tsv file with metada for each of the points, first row is must be the header with column labels.
+* .tsv file where each row is a point represented in a N-dimensional space defined from the number of columns.
+* .tsv file with metadata for each of the points, first row must be the header with column labels.
 * .jpg or .png sprite image, that should be in the same order as the previous files.
 * .json config file that contains the paths to the previous files.
 
-This example in colab generates the files for the projector on a single audio file and loads the tensorboard extensions within the notebook to visualize the embeddings directly on the colab notebook. Sometime you have to delete the logs folder and re-run the cell of the projector.
+This example in colab generates the files for the projector on a single audio file and loads the tensorboard extensions within the notebook to visualize the embeddings directly on the colab notebook. Sometimes you have to delete the logs folder and re-run the cell of the projector if the extension can't find the tensor data.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1tAoBD-WbXa1PFPd0J598xxWlvZJxgCl4?usp=sharing)]
 
 # Online Experiments
 
-Using this workflow an projector visualization for each of the embedding models was generated using the train dataset of the Orcaml repo, you can see in the notebook how the files were generated althoug they're very similat to the colab example and just differ in the metadata generation. 
+Using this workflow a projector visualization for each of the embedding models was generated using the train dataset of the [Orcaml repo](https://github.com/orcasound/orcaml#Examples), you can see in the notebook folder how the files were generated although they're very similar to the colab example and just differ in the metadata generation. 
 
-[Vggish embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/projector_config.json)
-[Yamnet embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/yamnet_embeddings/yamnet_config.json)
-[Humpback embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/humpback_embeddings/humpback_config.json)
+*[Vggish embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/projector_config.json)
+*[Yamnet embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/yamnet_embeddings/yamnet_config.json)
+*[Humpback embeddings](https://projector.tensorflow.org/?config=https://t3st-jos3.s3.us-east-2.amazonaws.com/humpback_embeddings/humpback_config.json)
 
 
 
