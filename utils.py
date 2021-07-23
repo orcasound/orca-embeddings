@@ -19,21 +19,21 @@ def extract_embedding_from_audio(audio_file,model):
     
     except:
       x, sample_rate = sf.read(audio_file)
-      
+      waveform = tf.Variable(x.reshape([-1,1]),dtype=tf.float32)
 
     if model == 'vggish':
-        waveform = tf.Variable(x,dtype=tf.float32)
+        waveform = tf.squeeze(waveform, axis=-1)
         #resample to 16khz
         if int(sample_rate) != 16000:
             sample_rate = tf.cast(sample_rate, dtype=tf.int64)
             waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=16000)
             
         embeddings = vggish_model(waveform)
-        spectrogram,_,_,_ = plt.specgram(waveform.numpy(),Fs=16000)
-        return embeddings, spectrogram.T
+        #spectrogram,_,_,_ = plt.specgram(waveform.numpy(),Fs=16000)
+        return embeddings
 
     elif model == 'yamnet':
-        waveform = tf.Variable(x,dtype=tf.float32)
+        waveform = tf.squeeze(waveform, axis=-1)
         #resample to 16khz
         if int(sample_rate) != 16000:
             sample_rate = tf.cast(sample_rate, dtype=tf.int64)
@@ -43,7 +43,6 @@ def extract_embedding_from_audio(audio_file,model):
         return embeddings, log_mel_spectrogram
 
     elif model == 'humpback':
-        waveform = tf.Variable(x.reshape([-1,1]),dtype=tf.float32)
         if int(sample_rate) != 10000:
             sample_rate = tf.cast(sample_rate, dtype=tf.int64)
             waveform = tfio.audio.resample(waveform, rate_in=sample_rate, rate_out=10000)
