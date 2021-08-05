@@ -6,10 +6,22 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import soundfile as sf
 
-# load models from tensorflow hub
-vggish_model = hub.load('https://tfhub.dev/google/vggish/1')
-yamnet_model = hub.load('https://tfhub.dev/google/yamnet/1')
-humpback_model = hub.load('https://tfhub.dev/google/humpback_whale/1')
+LOCAL_LOADING = False
+
+if LOCAL_LOADING:
+    vggish_path = 'D:/orcaml/vggish_1/' # example local dir with models
+    yamnet_path = 'D:/orcaml/yamnet_1/'
+    humpback_path = 'D:/orcaml/humpback_whale_1/'
+
+    vggish_model = hub.load(vggish_path)
+    yamnet_model = hub.load(yamnet_path)
+    humpback_model = hub.load(humpback_path)
+    
+else:
+    # load models from tensorflow hub
+    vggish_model = hub.load('https://tfhub.dev/google/vggish/1')
+    yamnet_model = hub.load('https://tfhub.dev/google/yamnet/1')
+    humpback_model = hub.load('https://tfhub.dev/google/humpback_whale/1')
 
 def extract_embedding_from_audio(audio_file,model):
     """Extract embeddings from one of the selected models hosted on tensorflow hub"""
