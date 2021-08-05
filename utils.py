@@ -65,6 +65,33 @@ def extract_embedding_from_audio(audio_file,model):
     else:
         "print model not specified"
         
+def extract_embedding_from_signal(waveform,model):
+    "Assumes the waveform has the correct sample rate"
+    
+    if model == 'vggish':
+        embedding = vggish_model(waveform)
+    if model == 'yamnet':
+        scores, embedding, log_mel_spectrogram = yamnet_model(waveform)
+    if model == 'humpback':
+        
+        waveform = tf.Variable(waveform.reshape([-1,1]),dtype=tf.float32)
+        waveform = tf.expand_dims(waveform, 0)  # makes a batch of size 1
+        pcen_spectrogram = humpback_model.front_end(waveform)
+        
+        # zero pad if lenght not a multiple of 128
+        w_size = 128 # 3.84 seconds context window
+        
+        if pcen_spectrogram.shape[1] % w_size != 0:
+            even_n = w_size - pcen_spectrogram.shape[1] % w_size
+            pcen_spectrogram = tf.concat([pcen_spectrogram,tf.zeros([1,even_n,64])], axis=1)
+
+        n_frames = int(pcen_spectrogram.shape[1]/w_size)
+
+        batch_pcen_spectrogram = tf.reshape(pcen_spectrogram,shape=(n_frames,w_size,64)) 
+        embedding = humpback_model.features(batch_pcen_spectrogram)
+    
+    return embedding
+        
 
 
 
