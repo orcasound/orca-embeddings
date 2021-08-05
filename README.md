@@ -1,11 +1,11 @@
 # orca-embeddings
 extraction pipelines and experiments with audio embeddings. The models used in this repo are [Vggish](https://tfhub.dev/google/vggish/1), [Yamnet](https://tfhub.dev/google/yamnet/1) and [Humbpack whale model](https://tfhub.dev/google/humpback_whale/1), each model requires the waveform to have an appropiate sample rate and tensor shape.
 
-| model | sample rate | input representation | window size        | embedding size |
-|-------|-------------|----------------------|--------------------|----------------|
-|Vggish | 16 Khz      | Log-mel Spectrogram  | 0.96 s (no overlap)| 128            |
-|Yamnet | 16 Khz      | Log-mel Spectrogram  | 0.96 s (0.48s hop) | 1024           |
-|Humpack Whale| 10 Khz| Pcen Spectrogram     | 3.84 s             | 2048           |
+| model | sample rate | input representation | window size        | embedding size |waveform input shape |
+|-------|-------------|----------------------|--------------------|----------------|---------------------|
+|Vggish | 16 Khz      | Log-mel Spectrogram  | 0.96 s (no overlap)| 128            | (n_samples,)          |
+|Yamnet | 16 Khz      | Log-mel Spectrogram  | 0.96 s (0.48s hop) | 1024           | (n_samples,)          |
+|Humpack Whale| 10 Khz| Pcen Spectrogram     | 3.84 s             | 2048           | (nsamples,1,1)      |
 
 # Usage
 
