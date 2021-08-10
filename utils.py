@@ -103,6 +103,129 @@ def extract_embedding_from_signal(waveform,model):
         embedding = humpback_model.features(batch_pcen_spectrogram)
     
     return embedding
+
+    def create_embedding_animation(x,fs,name='animation',frame_duration=2,time_ratio=2,model='vggish'):
+    """ Create animation to the see the output of one embedding model """
+    
+    hop_size = int(fs/2) # half second
+    hop_duration = hop_size/fs
+    w_size = fs*frame_duration
+    fps = int(1 / hop_duration) * time_ratio 
+    steps = np.arange(0,x.size-w_size,hop_size)
+
+    # Writer
+    Writer = animation.writers['ffmpeg']
+    writer = Writer(fps=fps, metadata=dict(artist='Orcasound'), bitrate=1800)
+
+    # create figure
+    fig = plt.figure(figsize=(10,9))
+    # subplots
+    ax1 = fig.add_subplot(3,1,1)
+    ax2 = fig.add_subplot(3,1,2)
+    ax3 = fig.add_subplot(3,1,3)
+
+    max_amp = np.max(np.abs(x))
+    ax1.set_ylim([-max_amp,max_amp])
+    ax1.set_xlim([0,frame_duration])
+    ax1.set_ylabel('{} second window'.format(frame_duration))
+    ax2.set_ylabel('{} second STFT'.format(frame_duration))
+    
+    ax2.set_yticks()
+
+    line, = ax1.plot([], [], lw=1)
+
+    def init():
+        line.set_data([], [])
+        return line,
+
+    # animate function
+    def animate(i):
+
+        frame = x[steps[i]:steps[i]+w_size]
+        t = np.arange(0,len(frame))/fs
+        # plot waveform
+        line.set_data(t,frame)
+        line,
+
+        # Run the model.
+        embedding = extract_embedding_from_signal(frame,model)
+        # calc spectrogram
+        f, t, Sxx = signal.spectrogram(frame, fs)
+        # plot spectrogram
+        ax2.imshow(Sxx, origin='lower',aspect='auto',cmap='jet')   
+        # Plot the embedding
+        ax3.imshow(embedding.numpy(),origin='lower', aspect='auto', interpolation='nearest', cmap='gray_r')
+        
+
+    m = len(steps)
+    ani = matplotlib.animation.FuncAnimation(fig, animate,init_func=init, frames=m,interval=int(hop_duration*1000))
+    ani.save(name + '_yamnet.mp4', writer=writer)
+
+def create_animation_all_models(x,fs,name='animation',frame_duration=2,time_ratio=2):
+    
+    hop_size = int(fs/2) # half second
+    hop_duration = hop_size/fs
+    w_size = fs*frame_duration
+    fps = int(1 / hop_duration) * time_ratio 
+    steps = np.arange(0,x.size-w_size,hop_size)
+
+    # Writer
+    Writer = animation.writers['ffmpeg']
+    writer = Writer(fps=fps, metadata=dict(artist='Orcasound'), bitrate=1800)
+
+    # create figure
+    fig = plt.figure(figsize=(10,9))
+    # subplots
+    ax1 = fig.add_subplot(5,1,1)
+    ax2 = fig.add_subplot(5,1,2)
+    ax3 = fig.add_subplot(5,1,3)
+    ax4 = fig.add_subplot(5,1,4)
+    ax5 = fig.add_subplot(5,1,5)
+
+    max_amp = np.max(np.abs(x))
+    ax1.set_ylim([-max_amp,max_amp])
+    ax1.set_xlim([0,frame_duration])
+    ax1.set_ylabel('{} seconds window'.format(frame_duration))
+    ax2.set_ylabel('{} seconds STFT'.format(frame_duration))
+    ax3.set_ylabel('Vggish')
+    ax4.set_ylabel('Yamnet')
+    ax5.set_ylabel('Humpback whale')
+
+    line, = ax1.plot([], [], lw=1)
+
+    def init():
+        line.set_data([], [])
+        return line,
+
+    # animate function
+    def animate(i):
+
+        frame = x[steps[i]:steps[i]+w_size]
+        t = np.arange(0,len(frame))/fs
+        line.set_data(t,frame)
+        line,
+
+        # Run the models.
+        vggish_embedding = extract_embedding_from_signal(frame,'vggish')
+        yamnet_embedding = extract_embedding_from_signal(frame,'yamnet')
+        humpback_embedding = extract_embedding_from_signal(frame,'humpback')
+        # calc spectrogram
+        f, t, Sxx = signal.spectrogram(frame, fs)
+        
+        # plot spectrogram
+        ax2.imshow(Sxx, origin='lower',aspect='auto',cmap='viridis')   
+        
+        # Plot the embedding
+        ax3.imshow(vggish_embedding.numpy(),origin='lower', aspect='auto', interpolation='nearest', cmap='gray_r')
+        # Plot the embedding
+        ax4.imshow(yamnet_embedding.numpy(),origin='lower', aspect='auto', interpolation='nearest', cmap='gray_r')
+        # Plot the embedding
+        ax5.imshow(humpback_embedding.numpy(),origin='lower', aspect='auto', interpolation='nearest', cmap='gray_r')
+        
+
+    m = len(steps)
+    ani = matplotlib.animation.FuncAnimation(fig, animate,init_func=init, frames=m,interval=int(hop_duration*1000/time_ratio))
+    ani.save(name + '_all_models.mp4', writer=writer)
         
 
 
