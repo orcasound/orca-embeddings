@@ -104,7 +104,7 @@ def extract_embedding_from_signal(waveform,model):
     
     return embedding
 
-    def create_embedding_animation(x,fs,name='animation',frame_duration=2,time_ratio=2,model='vggish'):
+def create_embedding_animation(x,fs,name='animation',frame_duration=2,time_ratio=2,model='vggish'):
     """ Create animation to the see the output of one embedding model """
     
     hop_size = int(fs/2) # half second
@@ -159,7 +159,8 @@ def extract_embedding_from_signal(waveform,model):
 
     m = len(steps)
     ani = matplotlib.animation.FuncAnimation(fig, animate,init_func=init, frames=m,interval=int(hop_duration*1000))
-    ani.save(name + '_yamnet.mp4', writer=writer)
+    ani.save(name + '_' + model + '.mp4', writer=writer)
+
 
 def create_animation_all_models(x,fs,name='animation',frame_duration=2,time_ratio=2):
     
